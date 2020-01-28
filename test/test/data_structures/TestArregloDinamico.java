@@ -19,18 +19,21 @@ public class TestArregloDinamico {
 
 	public void setUp2() {
 		for(int i =0; i< TAMANO*2; i++){
-			arreglo.agregar(""+i);
+			arreglo.agregar(i);
 		}
 	}
 
 	@Test
 	public void testArregloDinamico() {
 		// TODO
+		setUp2();
+		assertEquals(200, arreglo.darTamano());
 	}
 
 	@Test
 	public void testDarElemento() {
 		setUp2();
+		arreglo.buscar(156);
 		// TODO
 	}
 

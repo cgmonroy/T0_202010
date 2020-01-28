@@ -7,7 +7,8 @@ package model.data_structures;
  * @author Fernando De la Rosa
  *
  */
-public class ArregloDinamico implements IArregloDinamico{
+public class ArregloDinamico <T extends Comparable<T>> implements IArregloDinamico<T>
+{
 		/**
 		 * Capacidad maxima del arreglo
 		 */
@@ -19,7 +20,7 @@ public class ArregloDinamico implements IArregloDinamico{
         /**
          * Arreglo de elementos de tamaNo maximo
          */
-        private String elementos[ ];
+        private T elementos[];
 
         /**
          * Construir un arreglo con la capacidad maxima inicial.
@@ -27,25 +28,25 @@ public class ArregloDinamico implements IArregloDinamico{
          */
 		public ArregloDinamico( int max )
         {
-               elementos = new String[max];
+               elementos = (T[]) new Comparable[max];
                tamanoMax = max;
                tamanoAct = 0;
         }
         
-		public void agregar( String dato )
+		public void agregar( Object dato )
         {
                if ( tamanoAct == tamanoMax )
                {  // caso de arreglo lleno (aumentar tamaNo)
                     tamanoMax = 2 * tamanoMax;
-                    String [ ] copia = elementos;
-                    elementos = new String[tamanoMax];
+                    T [ ] copia = elementos;
+                    elementos = (T[]) new Comparable[tamanoMax];
                     for ( int i = 0; i < tamanoAct; i++)
                     {
                      	 elementos[i] = copia[i];
                     } 
             	    System.out.println("Arreglo lleno: " + tamanoAct + " - Arreglo duplicado: " + tamanoMax);
                }	
-               elementos[tamanoAct] = dato;
+               elementos[tamanoAct] = (T) dato;
                tamanoAct++;
        }
 
@@ -57,31 +58,46 @@ public class ArregloDinamico implements IArregloDinamico{
 			return tamanoAct;
 		}
 
-		public String darElemento(int i) {
+		public T darElemento(int i) {
 			// TODO implementar
 			return elementos[i];
 			//return null;
 		}
 
-		public String buscar(String dato) {
+		public T buscar(Object dato) {
 			// TODO implementar
 			// Recomendacion: Usar el criterio de comparacion natural (metodo compareTo()) definido en Strings.
-			String respuesta = null;
+			T respuesta = null;
 			for (int i = 0; i < tamanoAct; i++){
-				if (dato.compareToIgnoreCase(elementos[i]) == 0) {
+				if (elementos[i].compareTo((T) dato) == 0) {
 					respuesta = elementos[i];
 				}
 			}
-			return respuesta; 
+			return respuesta;
 			//return null;
 		}
 
-		public String eliminar(String dato) {
+		public T eliminar(Object dato) {
 			// TODO implementar
 			// Recomendacion: Usar el criterio de comparacion natural (metodo compareTo()) definido en Strings.
+			boolean bandera = false; 
+			T respuesta = null; 
 			
-			
-			return null;
+			for (int i = 0; i < tamanoAct ; i++)
+			{
+				if (elementos[i].compareTo((T) dato) == 0) 
+				{
+					bandera = true;
+					respuesta = elementos[i];
+				}
+				if (bandera == true && i<tamanoAct-1)
+				{
+					elementos[i] = elementos[i+1];
+				}		
+			}
+			elementos[tamanoAct-1] = null; 
+			tamanoAct = tamanoAct-1;
+			return respuesta;
 		}
 
 }
